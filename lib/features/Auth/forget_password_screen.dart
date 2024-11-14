@@ -4,7 +4,10 @@ import 'package:kalyan/features/Auth/otp_verification1_page.dart';
 import '../../constants/app_colors.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
+  const ForgotPasswordScreen({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _ForgotPasswordScreenState createState() => _ForgotPasswordScreenState();
 }
 
@@ -22,18 +25,18 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       backgroundColor: AppColors.accentSeafoam, // Consistent background color
       appBar: AppBar(
         backgroundColor: AppColors.primaryBlue, // Matching AppBar color
-        title: Text(
+        title: const Text(
           'Forgot Password',
           style: TextStyle(color: AppColors.textWhite), // Consistent text color
         ),
         elevation: 0,
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Center(
           child: Container(
             height: screenHeight * 0.6,
-            padding: EdgeInsets.all(24.0),
+            padding: const EdgeInsets.all(24.0),
             decoration: BoxDecoration(
               color:
                   AppColors.textWhite, // Consistent background color for form
@@ -42,7 +45,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 BoxShadow(
                   color: Colors.grey.shade300,
                   blurRadius: 10,
-                  offset: Offset(0, 4),
+                  offset: const Offset(0, 4),
                 ),
               ],
             ),
@@ -60,8 +63,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                   ),
-                  SizedBox(height: 16.0),
-                  Text(
+                  const SizedBox(height: 16.0),
+                  const Text(
                     'No worries, we got you covered.',
                     style: TextStyle(
                       color: AppColors.primaryBlue, // Consistent color
@@ -86,7 +89,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => VerificationCodeScreen(),
+                              builder: (context) => const VerificationCodeScreen(),
                             ),
                           );
                         }
@@ -94,12 +97,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor:
                             AppColors.primaryBlue, // Consistent button color
-                        padding: EdgeInsets.symmetric(vertical: 12.0),
+                        padding: const EdgeInsets.symmetric(vertical: 12.0),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12.0),
                         ),
                       ),
-                      child: Text(
+                      child: const Text(
                         'GET OTP',
                         style: TextStyle(
                           color: AppColors
@@ -116,7 +119,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: Text(
+                    child: const Text(
                       'Back To Login',
                       style: TextStyle(
                         color: AppColors.primaryBlue, // Consistent text color
@@ -144,7 +147,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         hintText: hintText,
         filled: true,
         fillColor: Colors.grey.shade100, // Consistent text field background
-        contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+        contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.0),
           borderSide: BorderSide.none,

@@ -3,7 +3,10 @@ import 'package:kalyan/features/Auth/create_password_screen.dart';
 import '../../constants/app_colors.dart';
 
 class VerificationCodeScreen extends StatefulWidget {
+  const VerificationCodeScreen({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _VerificationCodeScreenState createState() => _VerificationCodeScreenState();
 }
 
@@ -35,19 +38,19 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
       backgroundColor: AppColors.accentSeafoam,
       appBar: AppBar(
         backgroundColor: AppColors.primaryBlue,
-        title: Text(
+        title: const Text(
           'Verification Code',
           style: TextStyle(color: AppColors.textWhite),
         ),
         elevation: 0,
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Center(
           child: Container(
             width: width * 0.8, // Responsive width based on screen size
             height: height * 0.5, // Set a fixed height
-            padding: EdgeInsets.all(24.0),
+            padding: const EdgeInsets.all(24.0),
             decoration: BoxDecoration(
               color: AppColors.textWhite,
               borderRadius: BorderRadius.circular(16.0),
@@ -55,7 +58,7 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                 BoxShadow(
                   color: Colors.grey.shade300,
                   blurRadius: 10,
-                  offset: Offset(0, 4),
+                  offset: const Offset(0, 4),
                 ),
               ],
             ),
@@ -70,8 +73,8 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                 ),
-                SizedBox(height: 16.0),
-                Text(
+                const SizedBox(height: 16.0),
+                const Text(
                   'We have sent the verification code to your mobile number.',
                   style: TextStyle(
                     color: AppColors.primaryBlue,
@@ -79,7 +82,7 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 24.0),
+                const SizedBox(height: 24.0),
                 // OTP input fields with responsive layout
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -90,7 +93,7 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                     );
                   }),
                 ),
-                SizedBox(height: 24.0),
+                const SizedBox(height: 24.0),
                 // Resend OTP button with responsive size
                 SizedBox(
                   width: width * 0.6, // Responsive width
@@ -100,12 +103,12 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primaryBlue,
-                      padding: EdgeInsets.symmetric(vertical: 12.0),
+                      padding: const EdgeInsets.symmetric(vertical: 12.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                     ),
-                    child: Text(
+                    child: const Text(
                       'RESEND OTP',
                       style: TextStyle(
                         color: AppColors.textWhite,
@@ -140,11 +143,11 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
           textAlign: TextAlign.center,
           keyboardType: TextInputType.number,
           maxLength: 1,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             counterText: '', // Hide counter text (i.e., '1/1')
             border: InputBorder.none,
           ),
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 24.0,
             fontWeight: FontWeight.bold,
             color: AppColors.primaryBlue,
@@ -160,7 +163,7 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => CreatePasswordScreen()));
+                        builder: (context) => const CreatePasswordScreen()));
               }
             }
           },

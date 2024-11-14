@@ -4,7 +4,10 @@ import 'constants/app_colors.dart';
 import 'features/Auth/create_account_screen.dart'; // Import colors file
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _SplashScreenState createState() => _SplashScreenState();
 }
 
@@ -32,11 +35,11 @@ class _SplashScreenState extends State<SplashScreen>
     _controller.forward();
 
     // Navigate to Home Screen after 3 seconds
-    Timer(Duration(seconds: 3), () {
+    Timer(const Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
             builder: (_) =>
-                CreateAccountScreen()), // Replace with your actual screen
+                const CreateAccountScreen()), // Replace with your actual screen
       );
     });
   }
@@ -61,7 +64,7 @@ class _SplashScreenState extends State<SplashScreen>
           Center(
             child: FadeTransition(
               opacity: _fadeAnimation,
-              child: Column(
+              child: const Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   // Project Logo (Optional)

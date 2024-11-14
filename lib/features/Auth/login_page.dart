@@ -5,7 +5,10 @@ import '../../constants/app_colors.dart';
 import 'create_account_screen.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _LoginScreenState createState() => _LoginScreenState();
 }
 
@@ -17,17 +20,16 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     // MediaQuery for responsive design
-    double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: AppColors.accentSeafoam, // Consistent background color
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
         child: Center(
           child: Container(
             height: screenHeight * 0.6,
-            padding: EdgeInsets.all(24.0),
+            padding: const EdgeInsets.all(24.0),
             decoration: BoxDecoration(
               color: AppColors.textWhite, // Consistent text field background
               borderRadius: BorderRadius.circular(16.0),
@@ -35,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 BoxShadow(
                   color: Colors.grey.shade300,
                   blurRadius: 10,
-                  offset: Offset(0, 4),
+                  offset: const Offset(0, 4),
                 ),
               ],
             ),
@@ -79,10 +81,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ForgotPasswordScreen()),
+                              builder: (context) => const ForgotPasswordScreen()),
                         );
                       },
-                      child: Text(
+                      child: const Text(
                         'Forgot Password?',
                         style: TextStyle(
                           color: AppColors.primaryBlue,
@@ -103,12 +105,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primaryBlue,
-                        padding: EdgeInsets.symmetric(vertical: 12.0),
+                        padding: const EdgeInsets.symmetric(vertical: 12.0),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12.0),
                         ),
                       ),
-                      child: Text(
+                      child: const Text(
                         'LOGIN',
                         style: TextStyle(
                           color: AppColors.textWhite,
@@ -142,10 +144,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: () {
                           Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
-                                builder: (_) => CreateAccountScreen()),
+                                builder: (_) => const CreateAccountScreen()),
                           );
                         },
-                        child: Text(
+                        child: const Text(
                           'CREATE AN ACCOUNT',
                           style: TextStyle(
                             color: AppColors.primaryBlue,
@@ -174,7 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
         hintText: hintText,
         filled: true,
         fillColor: Colors.grey.shade100,
-        contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+        contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.0),
           borderSide: BorderSide.none,

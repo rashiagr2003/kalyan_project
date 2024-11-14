@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import '../../constants/app_colors.dart'; // Assuming you have a constants file for app colors.
 
 class CreatePasswordScreen extends StatefulWidget {
+  const CreatePasswordScreen({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _CreatePasswordScreenState createState() => _CreatePasswordScreenState();
 }
 
@@ -14,18 +17,17 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: AppColors.accentSeafoam,
       appBar: AppBar(
-        title: Text('Create New Password'),
+        title: const Text('Create New Password'),
         backgroundColor: AppColors.primaryBlue,
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Center(
           child: Container(
-            padding: EdgeInsets.all(24.0),
+            padding: const EdgeInsets.all(24.0),
             height: MediaQuery.of(context).size.height *
                 0.4, // Container height based on screen size
             decoration: BoxDecoration(
@@ -35,7 +37,7 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
                 BoxShadow(
                   color: Colors.grey.shade300,
                   blurRadius: 10,
-                  offset: Offset(0, 4),
+                  offset: const Offset(0, 4),
                 ),
               ],
             ),
@@ -52,7 +54,7 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 // Password input field
                 _buildPasswordField(
                   controller: _passwordController,
@@ -64,7 +66,7 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
                     return null;
                   },
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 // Confirm Password input field
                 _buildPasswordField(
                   controller: _confirmPasswordController,
@@ -76,7 +78,7 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
                     return null;
                   },
                 ),
-                SizedBox(height: 24.0),
+                const SizedBox(height: 24.0),
                 // Change Password button
                 SizedBox(
                   width: screenWidth * 0.5,
@@ -88,12 +90,12 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primaryBlue,
-                      padding: EdgeInsets.symmetric(vertical: 12.0),
+                      padding: const EdgeInsets.symmetric(vertical: 12.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                     ),
-                    child: Text(
+                    child: const Text(
                       'CHANGE PASSWORD',
                       style: TextStyle(
                         color: AppColors.textWhite,
@@ -124,7 +126,7 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
         hintText: hint,
         filled: true,
         fillColor: Colors.grey.shade100,
-        contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.0),
           borderSide: BorderSide.none,

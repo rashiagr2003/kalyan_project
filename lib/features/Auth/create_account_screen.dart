@@ -4,7 +4,10 @@ import 'package:kalyan/features/Auth/login_page.dart';
 import '../../constants/app_colors.dart';
 
 class CreateAccountScreen extends StatefulWidget {
+  const CreateAccountScreen({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _CreateAccountScreenState createState() => _CreateAccountScreenState();
 }
 
@@ -35,7 +38,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 BoxShadow(
                   color: Colors.grey.shade300,
                   blurRadius: 10,
-                  offset: Offset(0, 4),
+                  offset: const Offset(0, 4),
                 ),
               ],
             ),
@@ -101,7 +104,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor:
                           AppColors.primaryBlue, // Updated button color
-                      padding: EdgeInsets.symmetric(vertical: 12.0),
+                      padding: const EdgeInsets.symmetric(vertical: 12.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12.0),
                       ),
@@ -122,7 +125,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                             builder: (_) =>
-                                LoginScreen()), // Replace with your actual screen
+                                const LoginScreen()), // Replace with your actual screen
                       );
                     },
                     child: Text(
@@ -146,7 +149,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   Widget _buildTextField(TextEditingController controller, String hintText,
       {bool obscureText = false}) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 16.0), // Provide space between fields
+      padding: const EdgeInsets.only(bottom: 16.0), // Provide space between fields
       child: TextFormField(
         controller: controller,
         obscureText: obscureText,
@@ -155,7 +158,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
           filled: true,
           fillColor: Colors.grey.shade100,
           contentPadding:
-              EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+              const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.0),
             borderSide: BorderSide.none,

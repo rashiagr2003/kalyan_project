@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:kalyan/features/Auth/create_password_screen.dart';
+import 'package:provider/provider.dart';
 import '../../constants/app_colors.dart';
+import 'providers/otp_verification_provider.dart';
 
 class VerificationCodeScreen extends StatefulWidget {
   const VerificationCodeScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _VerificationCodeScreenState createState() => _VerificationCodeScreenState();
 }
 
 class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
-  // Create a list to hold the controllers and focus nodes for each OTP digit field
   final List<TextEditingController> _controllers =
       List.generate(4, (index) => TextEditingController());
   final List<FocusNode> _focusNodes = List.generate(4, (index) => FocusNode());
 
   @override
   void dispose() {
-    // Dispose controllers and focus nodes
     for (var node in _focusNodes) {
       node.dispose();
     }
@@ -30,7 +28,6 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Using MediaQuery to get screen width and height for responsiveness
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
@@ -48,8 +45,8 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Center(
           child: Container(
-            width: width * 0.8, // Responsive width based on screen size
-            height: height * 0.5, // Set a fixed height
+            width: width * 0.8,
+            height: height * 0.5,
             padding: const EdgeInsets.all(24.0),
             decoration: BoxDecoration(
               color: AppColors.textWhite,
@@ -63,8 +60,8 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
               ],
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center, // Center alignment
-              crossAxisAlignment: CrossAxisAlignment.center, // Center alignment
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   'Verification Code',
@@ -83,41 +80,67 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 24.0),
-                // OTP input fields with responsive layout
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(4, (index) {
                     return Padding(
-                      padding: EdgeInsets.symmetric(horizontal: width * 0.02), // Responsive horizontal spacing
+                      padding: EdgeInsets.symmetric(horizontal: width * 0.02),
                       child: _buildOtpTextField(index),
                     );
                   }),
                 ),
                 const SizedBox(height: 24.0),
-                // Resend OTP button with responsive size
-                SizedBox(
-                  width: width * 0.6, // Responsive width
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Implement resend OTP logic here
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryBlue,
-                      padding: const EdgeInsets.symmetric(vertical: 12.0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
+                Consumer<OtpVerificationProvider>(
+                  builder: (context, otpProvider, child) {
+                    return SizedBox(
+                      width: width * 0.6,
+                      child: ElevatedButton(
+                        onPressed: otpProvider.isLoading
+                            ? null
+                            : () {
+                                final otp = _controllers
+                                    .map((controller) => controller.text)
+                                    .join();
+                                otpProvider.verifyOtp(otp);
+                              },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primaryBlue,
+                          padding: const EdgeInsets.symmetric(vertical: 12.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                        ),
+                        child: otpProvider.isLoading
+                            ? const CircularProgressIndicator(
+                                color: AppColors.textWhite,
+                              )
+                            : const Text(
+                                'VERIFY OTP',
+                                style: TextStyle(
+                                  color: AppColors.textWhite,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                       ),
-                    ),
-                    child: const Text(
-                      'RESEND OTP',
-                      style: TextStyle(
-                        color: AppColors.textWhite,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                    );
+                  },
+                ),
+                if (Provider.of<OtpVerificationProvider>(context)
+                    .errorMessage
+                    .isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: Text(
+                      Provider.of<OtpVerificationProvider>(context)
+                          .errorMessage,
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontSize: 14,
                       ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
-                ),
               ],
             ),
           ),
@@ -126,7 +149,6 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
     );
   }
 
-  // Build the OTP text field widget
   Widget _buildOtpTextField(int index) {
     return Container(
       width: 50,
@@ -139,12 +161,12 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
         child: TextField(
           controller: _controllers[index],
           focusNode: _focusNodes[index],
-          autofocus: index == 0, // Focus on the first TextField
+          autofocus: index == 0,
           textAlign: TextAlign.center,
           keyboardType: TextInputType.number,
           maxLength: 1,
           decoration: const InputDecoration(
-            counterText: '', // Hide counter text (i.e., '1/1')
+            counterText: '',
             border: InputBorder.none,
           ),
           style: const TextStyle(
@@ -153,17 +175,14 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
             color: AppColors.primaryBlue,
           ),
           onChanged: (value) {
-            // Automatically move to the next field
             if (value.isNotEmpty) {
               if (index < 3) {
-                // Move focus to next text field
                 FocusScope.of(context).requestFocus(_focusNodes[index + 1]);
               } else {
-                // Once the last field is filled, verify OTP and navigate
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const CreatePasswordScreen()));
+                String otp =
+                    _controllers.map((controller) => controller.text).join();
+                Provider.of<OtpVerificationProvider>(context, listen: false)
+                    .verifyOtp(otp);
               }
             }
           },

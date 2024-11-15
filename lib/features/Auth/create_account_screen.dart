@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kalyan/features/Auth/login_page.dart';
-
+import 'package:kalyan/features/home%20Page/home_page.dart';
+import 'package:provider/provider.dart';
 import '../../constants/app_colors.dart';
+import 'providers/sign_up_provider.dart';
 
 class CreateAccountScreen extends StatefulWidget {
   const CreateAccountScreen({super.key});
@@ -24,15 +26,15 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: AppColors.accentSeafoam, // Updated background color
+      backgroundColor: AppColors.accentSeafoam,
       body: Padding(
-        padding: EdgeInsets.all(screenWidth * 0.05), // Responsive padding
+        padding: EdgeInsets.all(screenWidth * 0.05),
         child: Center(
           child: Container(
             height: screenHeight * 0.6,
-            padding: EdgeInsets.all(screenWidth * 0.06), // Responsive padding
+            padding: EdgeInsets.all(screenWidth * 0.06),
             decoration: BoxDecoration(
-              color: AppColors.textWhite, // Updated to use AppColors
+              color: AppColors.textWhite,
               borderRadius: BorderRadius.circular(16.0),
               boxShadow: [
                 BoxShadow(
@@ -45,15 +47,13 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
             child: Form(
               key: _formKey,
               child: Column(
-                mainAxisAlignment:
-                    MainAxisAlignment.center, // Vertically center the form
-                crossAxisAlignment:
-                    CrossAxisAlignment.center, // Align form items to the start
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     'Let\'s Create Your Account',
                     style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                          color: AppColors.primaryBlue, // Updated text color
+                          color: AppColors.primaryBlue,
                           fontWeight: FontWeight.bold,
                         ),
                   ),
@@ -76,67 +76,96 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                             _isChecked = value!;
                           });
                         },
-                        activeColor:
-                            AppColors.primaryBlue, // Updated active color
+                        activeColor: AppColors.primaryBlue,
                         checkColor: AppColors.textWhite,
                       ),
                       Expanded(
                         child: Text(
                           'I accept the Privacy Policy and Terms & Conditions',
                           style: TextStyle(
-                            color: AppColors.primaryBlue, // Updated text color
-                            fontSize:
-                                screenWidth * 0.04, // Responsive text size
+                            color: AppColors.primaryBlue,
+                            fontSize: screenWidth * 0.04,
                           ),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: screenWidth * 0.06), // Responsive height
-
+                  SizedBox(height: screenWidth * 0.06),
                   // Sign up button
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        // Implement sign-up logic here
-                      }
+                  Consumer<SignUpProvider>(
+                    builder: (context, provider, _) {
+                      return SizedBox(
+                        width: screenWidth * 0.2,
+                        child: ElevatedButton(
+                          onPressed: provider.isLoading
+                              ? null
+                              : () async {
+                                  if (_formKey.currentState!.validate() &&
+                                      _isChecked) {
+                                    await provider.signUp(
+                                      name: _nameController.text,
+                                      mobile: _mobileController.text,
+                                      password: _passwordController.text,
+                                    );
+
+                                    if (provider.errorMessage.isNotEmpty) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                            content:
+                                                Text(provider.errorMessage)),
+                                      );
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                            content: Text(
+                                                'Account created successfully!')),
+                                      );
+                                      Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                            builder: (_) => KalyanHomePage()),
+                                      );
+                                    }
+                                  }
+                                },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primaryBlue,
+                            padding: const EdgeInsets.symmetric(vertical: 12.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
+                          ),
+                          child: provider.isLoading
+                              ? const CircularProgressIndicator()
+                              : Text(
+                                  'SIGN UP',
+                                  style: TextStyle(
+                                    color: AppColors.textWhite,
+                                    fontSize: screenWidth * 0.04,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                        ),
+                      );
                     },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          AppColors.primaryBlue, // Updated button color
-                      padding: const EdgeInsets.symmetric(vertical: 12.0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                    ),
-                    child: Text(
-                      '  SIGN UP  ',
-                      style: TextStyle(
-                        color: AppColors.textWhite, // Updated text color
-                        fontSize: screenWidth * 0.04, // Responsive font size
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
                   ),
-                  SizedBox(height: screenWidth * 0.03), // Responsive height
+                  SizedBox(height: screenWidth * 0.03),
                   TextButton(
                     onPressed: () {
-                      // Implement login logic here
                       Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                            builder: (_) =>
-                                const LoginScreen()), // Replace with your actual screen
+                        MaterialPageRoute(builder: (_) => const LoginScreen()),
                       );
                     },
                     child: Text(
                       'LOGIN',
                       style: TextStyle(
-                        color: AppColors.primaryBlue, // Updated text color
-                        fontSize: screenWidth * 0.035, // Responsive text size
+                        color: AppColors.primaryBlue,
+                        fontSize: screenWidth * 0.035,
                         decoration: TextDecoration.underline,
                       ),
                     ),
-                  ),
+                  )
                 ],
               ),
             ),
@@ -149,7 +178,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   Widget _buildTextField(TextEditingController controller, String hintText,
       {bool obscureText = false}) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0), // Provide space between fields
+      padding: const EdgeInsets.only(bottom: 16.0),
       child: TextFormField(
         controller: controller,
         obscureText: obscureText,

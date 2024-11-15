@@ -1,8 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:kalyan/features/Auth/providers/forget_password_provider.dart';
+import 'package:kalyan/features/Auth/providers/sign_up_provider.dart';
 import 'package:kalyan/splash_screen.dart';
+import 'package:provider/provider.dart';
+
+import 'features/Auth/providers/login_provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => LoginProvider()),
+        ChangeNotifierProvider(create: (_) => SignUpProvider()),
+        ChangeNotifierProvider(
+          create: (context) => ForgotPasswordProvider(),
+        ),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

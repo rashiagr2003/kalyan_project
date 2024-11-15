@@ -3,6 +3,10 @@ import 'package:kalyan/features/Auth/otp_verification1_page.dart';
 
 import '../../constants/app_colors.dart';
 
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'providers/forget_password_provider.dart'; // Import the ForgotPasswordProvider
+
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
 
@@ -80,38 +84,58 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   SizedBox(
                       height: screenWidth *
                           0.08), // Adjusted spacing based on screen size
-                  SizedBox(
-                    width: screenWidth * 0.28,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          // Implement OTP request logic here
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const VerificationCodeScreen(),
+                  // Get OTP button
+                  Consumer<ForgotPasswordProvider>(
+                    builder: (context, provider, _) {
+                      return SizedBox(
+                        width: screenWidth * 0.28,
+                        child: ElevatedButton(
+                          onPressed: provider.isLoading
+                              ? null
+                              : () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    await provider.sendOTP(
+                                      _mobileController.text,
+                                    );
+
+                                    if (provider.errorMessage.isNotEmpty) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(provider.errorMessage),
+                                        ),
+                                      );
+                                    } else {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const VerificationCodeScreen(),
+                                        ),
+                                      );
+                                    }
+                                  }
+                                },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primaryBlue,
+                            padding: const EdgeInsets.symmetric(vertical: 12.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0),
                             ),
-                          );
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            AppColors.primaryBlue, // Consistent button color
-                        padding: const EdgeInsets.symmetric(vertical: 12.0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          child: provider.isLoading
+                              ? const CircularProgressIndicator()
+                              : const Text(
+                                  'GET OTP',
+                                  style: TextStyle(
+                                    color: AppColors.textWhite,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                         ),
-                      ),
-                      child: const Text(
-                        'GET OTP',
-                        style: TextStyle(
-                          color: AppColors
-                              .textWhite, // Consistent button text color
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
                   SizedBox(height: screenWidth * 0.04), // Adjusted spacing
                   // Back to login button
@@ -147,7 +171,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         hintText: hintText,
         filled: true,
         fillColor: Colors.grey.shade100, // Consistent text field background
-        contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.0),
           borderSide: BorderSide.none,
